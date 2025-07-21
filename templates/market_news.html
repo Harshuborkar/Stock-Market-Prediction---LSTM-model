@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Market News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .news-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .news-item {
+            margin-bottom: 20px;
+        }
+        .news-item h3 {
+            margin: 0;
+        }
+        .news-item p {
+            margin: 5px 0;
+        }
+        .news-item a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .news-item a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="news-container">
+        <h1>Market News</h1>
+
+        {% if news %}
+            {% for item in news %}
+                <div class="news-item">
+                    <h3><a href="{{ item.url }}" target="_blank">{{ item.title }}</a></h3>
+                    <p>{{ item.summary }}</p>
+                    <p><em>Published: {{ item.published }}</em></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No news available at the moment. Please check back later.</p>
+        {% endif %}
+
+        <div class="back-link">
+            <a href="{{ url_for('home') }}">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

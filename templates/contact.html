@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us - Stockie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            line-height: 1.6;
+            background-color: #000000;
+        }
+        h1 {
+            color: #1a237e;
+        }
+        .contact-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        .contact-item {
+            margin-bottom: 20px;
+        }
+        .contact-label {
+            font-weight: bold;
+        }
+        .social-links a {
+            margin-right: 20px;
+            text-decoration: none;
+            color: #3949ab;
+        }
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-section">
+        <h1>Contact Us</h1>
+
+        <div class="contact-item">
+            <span class="contact-label">📞 Phone:</span> +91 93462 62206
+        </div>
+
+        <div class="contact-item">
+            <span class="contact-label">📧 Email:</span> <a href="mailto:ashrithaboorgupally@gmail.com">ashrithaboorgupally@gmail.com</a>
+        </div>
+
+        <div class="contact-item social-links">
+            <span class="contact-label">🔗 Social Media:</span><br>
+            <a href="https://twitter.com/stockie@news" target="_blank">Twitter: @stockie@news</a><br>
+            <a href="https://instagram.com/stockie._.world" target="_blank">Instagram: stockie._.world</a>
+        </div>
+
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Stockie. All rights reserved.</p>
+    </footer>
+</body>
+</html>

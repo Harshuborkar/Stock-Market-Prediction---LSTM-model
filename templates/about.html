@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Company – Stockie</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 30px;
+      color: #00bfff;
+    }
+
+    h2 {
+      color: #ffd700;
+      margin-top: 30px;
+    }
+
+    p {
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    ul {
+      padding-left: 20px;
+      font-size: 18px;
+    }
+
+    a {
+      color: #00bfff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 16px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>About Stockie</h1>
+
+    <p><strong>Stockie</strong> is a powerful web-based platform designed for individual investors, traders, and financial analysts to access comprehensive stock market tools with ease. With an intuitive interface and modern AI-backed tools, Stockie empowers users to analyze, predict, and stay updated with real-time market trends.</p>
+
+    <h2>Our Mission</h2>
+    <p>To democratize stock market insights by providing affordable, user-friendly, and data-rich tools that anyone can use to make informed investment decisions.</p>
+
+    <h2>Key Features</h2>
+    <ul>
+      <li><strong>Data Analysis:</strong> Visualize and study trends, highs/lows, and stock movement with uploaded CSV data.</li>
+      <li><strong>Predictions:</strong> Get basic AI-driven predictions based on historical price movement patterns.</li>
+      <li><strong>Market News:</strong> Stay updated with curated news feeds from top financial news sources.</li>
+      <li><strong>Chatbot:</strong> A simple assistant to help guide users through basic tasks on the platform.</li>
+    </ul>
+
+    <h2>Why Choose Stockie?</h2>
+    <ul>
+      <li>Modern, responsive, and beginner-friendly interface.</li>
+      <li>Personal login system for secure and customized experience.</li>
+      <li>Integration-ready design for potential future expansions (ML models, APIs, payment gateways, etc.).</li>
+    </ul>
+
+    <h2>Technology Stack</h2>
+    <ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript (Vanilla)</li>
+      <li><strong>Backend:</strong> Python Flask</li>
+      <li><strong>Database:</strong> SQLite</li>
+      <li><strong>Libraries:</strong> Pandas, Feedparser, etc.</li>
+    </ul>
+
+    <p>Learn more about our other pages: 
+      <a href="{{ url_for('contact') }}">Contact</a>, 
+      <a href="{{ url_for('terms') }}">Terms of Use</a>
+    </p>
+  </div>
+
+  <footer>&copy; 2025 Stockie. All rights reserved.</footer>
+</body>
+</html>

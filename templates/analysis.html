@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Full Stock Dashboard - Analysis</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #121212;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px;
+      background-color: #0a2540;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .navbar a:hover {
+      transform: scale(1.05);
+      background-color: #133d68;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    .content h1 {
+      margin-bottom: 20px;
+      color: #e0e0e0;
+      text-align: center;
+    }
+
+    .placeholder {
+      background: #1e1e1e;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      max-width: 98%;
+      margin: auto;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      min-width: 900px;
+    }
+
+    th, td {
+      padding: 12px 8px;
+      border: 1px solid #333;
+      text-align: center;
+      position: relative;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #222;
+      color: #bbb;
+      font-weight: 600;
+    }
+
+    .positive {
+      color: #26de81; /* Official green */
+      font-weight: 600;
+    }
+
+    .negative {
+      color: #fc5c65; /* Official red */
+      font-weight: 600;
+    }
+
+    .graph-tooltip {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 450px;
+      height: 340px;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      box-shadow: 0 0 15px rgba(0,0,0,0.8);
+      z-index: 100;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    td:hover .graph-tooltip {
+      display: block;
+    }
+
+    .logout {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .logout a {
+      text-decoration: none;
+      color: white;
+      background-color: #f44336;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .logout a:hover {
+      background-color: #d32f2f;
+    }
+
+    /* Scrollbar for table container */
+    .placeholder::-webkit-scrollbar {
+      height: 8px;
+    }
+    .placeholder::-webkit-scrollbar-track {
+      background: #222;
+    }
+    .placeholder::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="/">Home</a>
+    <a href="/prediction">Prediction</a>
+    <a href="/market_news">Market News</a>
+  </div>
+
+  <div class="content">
+    <h1>Full Stock Dashboard - Analysis</h1>
+    <div class="placeholder">
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Price</th>
+            <th>Volume</th>
+            <th>Change</th>
+            <th>% Change</th>
+            <th>Time</th>
+            <th>Graph</th>
+          </tr>
+        </thead>
+        <tbody id="stock-body">
+          <!-- JS will insert rows here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="logout">
+    <a href="/logout">Logout</a>
+  </div>
+
+  <script>
+    const stocks = [
+      { symbol: 'TATAMOTORS.NS', price: 876.25, volume: 1903200, change: 5.35, changesPercentage: 0.61, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'MARUTI.NS', price: 4593.05, volume: 1086000, change: -284.95, changesPercentage: -5.84, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'EICHERMOT.NS', price: 15024.85, volume: 142900, change: -371.95, changesPercentage: -2.42, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'M&M.NS', price: 280.80, volume: 820000, change: -16.20, changesPercentage: -5.45, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'BAJAJ-AUTO.NS', price: 2050.80, volume: 670000, change: -58.65, changesPercentage: -2.78, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'HEROMOTOCO.NS', price: 1704.70, volume: 1230000, change: -97.50, changesPercentage: -5.41, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'TVSMOTOR.NS', price: 312.35, volume: 780000, change: -14.95, changesPercentage: -4.57, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'ASHOKLEY.NS', price: 42.60, volume: 3300000, change: -0.25, changesPercentage: -0.58, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'BOSCHLTD.NS', price: 9895.00, volume: 150000, change: 49.15, changesPercentage: 0.50, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'MRF.NS', price: 55040.85, volume: 3600, change: -63.10, changesPercentage: -0.11, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'EXIDEIND.NS', price: 127.10, volume: 2400000, change: 0.30, changesPercentage: 0.24, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'MOTHERSUMI.NS', price: 63.10, volume: 2000000, change: -0.75, changesPercentage: -1.17, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'APOLLOTYRE.NS', price: 81.75, volume: 1400000, change: -0.65, changesPercentage: -0.79, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'BHARATFORG.NS', price: 263.20, volume: 870000, change: -20.55, changesPercentage: -7.24, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'AMARAJABAT.NS', price: 450.35, volume: 930000, change: 11.00, changesPercentage: 2.50, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'RELIANCE.NS', price: 2800.15, volume: 5500000, change: 25.40, changesPercentage: 0.92, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'INFY.NS', price: 1425.50, volume: 4800000, change: -10.20, changesPercentage: -0.71, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'HDFCBANK.NS', price: 1578.60, volume: 3200000, change: 5.60, changesPercentage: 0.36, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'ICICIBANK.NS', price: 1025.35, volume: 4100000, change: 8.75, changesPercentage: 0.86, timestamp: '2025-06-09 13:10:00' },
+      { symbol: 'AXISBANK.NS', price: 1023.50, volume: 3600000, change: 6.40, changesPercentage: 0.63, timestamp: '2025-06-09 13:10:00' }
+    ];
+
+    function loadMockData() {
+      const tbody = document.getElementById('stock-body');
+      tbody.innerHTML = '';
+
+      stocks.forEach((stock, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${stock.symbol}</td>
+          <td>${stock.price.toFixed(2)}</td>
+          <td>${stock.volume.toLocaleString()}</td>
+          <td class="${stock.change >= 0 ? 'positive' : 'negative'}">${stock.change.toFixed(2)}</td>
+          <td class="${stock.changesPercentage >= 0 ? 'positive' : 'negative'}">${stock.changesPercentage.toFixed(2)}%</td>
+          <td>${stock.timestamp}</td>
+          <td>
+            Hover to see graph
+            <div class="graph-tooltip" id="graph-${index}"></div>
+          </td>
+        `;
+        tbody.appendChild(row);
+
+        // Generate mock candlestick + volume data
+        const xValues = Array.from({ length: 15 }, (_, i) => `Day ${i + 1}`);
+        const open = Array.from({ length: 15 }, () => stock.price + (Math.random() * 20 - 10));
+        const close = open.map(o => o + (Math.random() * 20 - 10));
+        const high = open.map((o, i) => Math.max(o, close[i]) + Math.random() * 5);
+        const low = open.map((o, i) => Math.min(o, close[i]) - Math.random() * 5);
+        const volume = Array.from({ length: 15 }, () => Math.floor(stock.volume / 15 * (Math.random() * 0.5 + 0.75)));
+
+        // Calculate 5-period MA (simple moving average)
+        const ma5 = close.map((v, i, arr) => {
+          if (i < 4) return null;
+          const sum = arr.slice(i - 4, i + 1).reduce((a, b) => a + b, 0);
+          return sum / 5;
+        });
+
+        Plotly.newPlot(`graph-${index}`, [
+          {
+            x: xValues,
+            open, high, low, close,
+            increasing: { line: { color: '#26de81', width: 1 } },
+            decreasing: { line: { color: '#fc5c65', width: 1 } },
+            type: 'candlestick',
+            hovertemplate:
+              '<b>%{text}</b><br>' +
+              'Open: %{open:.2f}<br>' +
+              'High: %{high:.2f}<br>' +
+              'Low: %{low:.2f}<br>' +
+              'Close: %{close:.2f}<br>' +
+              '<extra></extra>',
+            name: `${stock.symbol}`,
+            text: xValues
+          },
+          {
+            x: xValues,
+            y: volume,
+            type: 'bar',
+            marker: { color: 'rgba(128, 128, 128, 0.4)' },
+            yaxis: 'y2',
+            hovertemplate: 'Volume: %{y}<extra></extra>',
+            name: 'Volume'
+          },
+          {
+            x: xValues,
+            y: ma5,
+            type: 'scatter',
+            mode: 'lines',
+            line: { color: '#1e88e5', width: 2 },
+            name: 'MA(5)',
+            connectgaps: true,
+            hoverinfo: 'skip'
+          }
+        ], {
+          grid: { rows: 2, columns: 1, subplots: [['xy'], ['xy2']], row_heights: [0.7, 0.3] },
+          xaxis: {
+            rangeslider: { visible: false },
+            showgrid: true,
+            gridcolor: '#333',
+            tickfont: { color: '#ccc' }
+          },
+          yaxis: { domain: [0.3, 1], showgrid: true, gridcolor: '#333', tickfont: { color: '#ccc' } },
+          yaxis2: { domain: [0, 0.25], showgrid: false, tickfont: { color: '#ccc' } },
+          plot_bgcolor: '#121212',
+          paper_bgcolor: '#1e1e1e',
+          font: { color: '#e0e0e0', family: 'Poppins, sans-serif' },
+          margin: { t: 10, b: 30, l: 40, r: 10 },
+          hovermode: 'x unified',
+          showlegend: false
+        }, { staticPlot: true });
+      });
+    }
+
+    loadMockData();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stokie - Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: black;
+            color: #ffffff;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: row;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .left-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+            padding: 20px;
+        }
+
+        .right-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+            z-index: 2;
+            position: relative;
+        }
+
+        .login-box {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 20px 5px rgb(10, 105, 238);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-box h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #0564f3b2;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #0051ffcb;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #0073ffaf;
+            border-radius: 10px;
+            background: #111;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .login-button {
+            background-color: #006aff;
+            color: #000;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #3955d2;
+        }
+
+        .info-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        a {
+            color: #001aff94;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .image-container img {
+            max-width: 90%;
+            max-height: 90%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px 2px rgba(0, 47, 255, 0.743);
+        }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .left-container, .right-container {
+                flex: none;
+                width: 100%;
+            }
+
+            .image-container img {
+                max-width: 80%;
+                max-height: 80%;
+                margin-top: 20px;
+            }
+
+            .login-box {
+                padding: 20px;
+                width: 90%;
+                max-width: 350px;
+            }
+
+            .info-text {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<div class="left-container">
+    <div class="login-box">
+        <h1>Welcome to Stokie</h1>
+
+        <form action="/login" method="POST">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="login-button">Login</button>
+        </form>
+
+        <div class="info-text">
+            Don't have an account? <a href="/signup">Sign up</a>
+        </div>
+    </div>
+</div>
+
+<div class="right-container">
+    <div class="image-container">
+      <img src="{{ url_for('static', filename='css/ash (2).png') }}"
+           alt="Stock Image">
+    </div>
+  </div>
+  
+
+</body>
+</html>

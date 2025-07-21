@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stockie – Home</title>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      color: white;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .title {
+      margin-top: 60px;
+      font-size: 64px;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 2px 2px 12px rgba(255,255,255,0.2);
+      z-index: 2;
+    }
+
+    .features {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 64px;
+      text-align: center;
+      padding: 60px 40px;
+    }
+
+    .feature {
+      width: 200px;
+      height: 200px;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .feature.analysis {
+      background: rgba(77, 133, 239, 0.3);
+      border: 2px solid rgb(0, 140, 255);
+    }
+
+    .feature.prediction {
+      background: rgba(255, 251, 0, 0.2);
+      border: 2px solid rgba(255, 251, 0, 0.6);
+    }
+
+    .feature.market-news {
+      background: rgba(232, 169, 200, 0.4);
+      border: 2px solid rgba(232, 169, 200, 0.8);
+    }
+
+    .feature:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+    }
+
+    .feature img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 4px rgba(255,255,255,0.7));
+    }
+
+    .feature span {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    footer a {
+      color: #ccc;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .features {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 32px;
+      }
+
+      .feature {
+        width: 180px;
+        height: 180px;
+      }
+
+      .title {
+        font-size: 48px;
+        margin-top: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <div class="title">STOCKIE</div>
+
+  <div class="features">
+    <div class="feature analysis"
+         onmouseover="changeBackground('blue')"
+         onmouseout="resetBackground()"
+         onclick="goToPage('/analysis')">
+      <img src="{{ url_for('static', filename='css/Analysis.png') }}" alt="">
+      <span>Analysis</span>
+    </div>
+
+    <div class="feature prediction"
+         onmouseover="changeBackground('yellow')"
+         onmouseout="resetBackground()"
+         onclick="goToPage('/prediction')">
+      <img src="{{ url_for('static', filename='css/prediction.png') }}" alt="">
+      <span>Prediction</span>
+    </div>
+
+    <div class="feature market-news"
+         onmouseover="changeBackground('pink')"
+         onmouseout="resetBackground()"
+         onclick="goToPage('/market_news')">
+      <img src="{{ url_for('static', filename='css/news.png') }}" alt="">
+      <span>Market News</span>
+    </div>
+  </div>
+
+  <footer>
+  
+    <a href="{{ url_for('about') }}">About</a> |
+    <a href="{{ url_for('contact') }}">Contact Us</a> |
+    <a href="{{ url_for('terms') }}">Terms of Use</a> |
+    <a href="{{ url_for('privacy') }}">Privacy Policy</a> |
+    <a href="{{ url_for('disclaimer') }}">Data Disclaimer</a>
+  </footer>
+
+  <script>
+    let originalBackground = "#000000";
+
+    function changeBackground(color) {
+      if (color === 'blue') {
+        document.body.style.background = 'linear-gradient(135deg, #4D85EF, #4D85EF)';
+      } else if (color === 'yellow') {
+        document.body.style.background = 'linear-gradient(135deg, #FFF700, #FFF700)';
+      } else if (color === 'pink') {
+        document.body.style.background = 'linear-gradient(135deg, #E8A9C8, #E8A9C8)';
+      }
+    }
+
+    function resetBackground() {
+      document.body.style.background = originalBackground;
+    }
+
+    function goToPage(url) {
+      setTimeout(function() {
+        window.location.href = url;
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>

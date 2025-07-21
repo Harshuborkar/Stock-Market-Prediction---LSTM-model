@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Prediction</title>
+    <style>
+        body { font-family: Arial; background: #111; color: white; padding: 20px; }
+        .stock-card {
+            background: #222;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            width: 180px;
+            text-align: center;
+        }
+        .up { color: lightgreen; }
+        .down { color: #ff4c4c; }
+        h2 { color: #00aaff; }
+    </style>
+</head>
+<body>
+    <h1>Live Market Overview</h1>
+    <div style="display: flex; flex-wrap: wrap;">
+        {% for stock in live_data %}
+            <div class="stock-card">
+                <strong>{{ stock.name }}</strong><br>
+                ₹{{ stock.price }}<br>
+                <span class="{{ stock.direction }}">
+                    {{ stock.change }} ({{ stock.percent }}%) {% if stock.direction == 'down' %}↓{% else %}↑{% endif %}
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Upload Stock Data for Prediction</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if candlestick %}
+        <h2>Prediction Summary</h2>
+        <p>Latest Close: ₹{{ latest_close }}</p>
+        <p>10-Day Moving Average: ₹{{ ma10 }}</p>
+        <p><strong>Recommendation:</strong>
+            {% if recommendation == "Buy" %}
+                <span class="up">Consider Buying 📈</span>
+            {% elif recommendation == "Sell" %}
+                <span class="down">Consider Selling 📉</span>
+            {% else %}
+                <span>Hold - No clear signal</span>
+            {% endif %}
+        </p>
+
+        <h2>Charts</h2>
+        {{ candlestick | safe }}
+        {{ line_chart | safe }}
+        {{ ma_chart | safe }}
+    {% endif %}
+    <script>
+    // Reload the page every 60 seconds (60000 ms)
+    setInterval(function() {
+        window.location.reload();
+    }, 60000);
+    </script>
+</body>
+</html>
